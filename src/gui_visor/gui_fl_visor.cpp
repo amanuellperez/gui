@@ -330,8 +330,11 @@ img::Rango2D Fl_Visor::local_escalada_to_global(const img::Rango2D& r) const
 // Convierte: (ie, je) --> (I, J)
 img::Rango2D Fl_Visor::local_to_global(img::Rango2D r) const
 {
-    r.p0(r.p0() + subimg0_.P0());
-    r.p1(r.p1() + subimg0_.P0());
+//    r.p0(r.p0() + subimg0_.P0());
+//    r.p1(r.p1() + subimg0_.P0());
+
+    r.upper_left_corner(r.upper_left_corner() + subimg0_.P0());
+    r.bottom_right_corner(r.bottom_right_corner() + subimg0_.P0());
 
     return r;
 }

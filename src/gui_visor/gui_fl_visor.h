@@ -369,8 +369,10 @@ private:
 
     img::Rango2D local_escalada_to_local(const img::Rango2D& r) const
     {
-	return img::Rango2D{local_escalada_to_local(r.p0())
-					, local_escalada_to_local(r.p1())};
+//	return img::Rango2D{local_escalada_to_local(r.p0())
+//					, local_escalada_to_local(r.p1())};
+	return img::Rango2D{local_escalada_to_local(r.upper_left_corner())
+			  , local_escalada_to_local(r.bottom_right_corner())};
     }
 
     // 3.- De coordenadas locales a coordenadas globales
