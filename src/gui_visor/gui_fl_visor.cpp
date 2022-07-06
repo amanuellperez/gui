@@ -37,8 +37,8 @@ namespace gui{
  ***************************************************************************/
 const int Fl_Visor::num_canales = 3;
 
-//const img::Imagen Fl_Visor::img_por_defecto = img::imagen_negra(50,50);
-const img::Imagen Fl_Visor::img_por_defecto = img::imagen_negra(1,1);
+//const img::Image Fl_Visor::img_por_defecto = img::imagen_negra(50,50);
+const img::Image Fl_Visor::img_por_defecto = img::imagen_negra(1,1);
 
 namespace impl
 {
@@ -54,7 +54,7 @@ namespace impl
 // la centra.
 // Precondición: p0 = es un array de ancho * alto * 3 caracteres.
 // Devuelve el rango en donde queda dibujada la imagen.
-static img::Rango2D img_to_char(  const img::Imagen& img0    
+static img::Range2D img_to_char(  const img::Image& img0    
 			, unsigned char* p0, Ind ancho, Ind alto)
 {
     // borramos la imagen que pudiera haber
@@ -63,7 +63,7 @@ static img::Rango2D img_to_char(  const img::Imagen& img0
     // escribimos la nueva imagen
     auto p = p0;
 
-    Rango2D rg;
+    Range2D rg;
 
     if (ancho > img0.cols()){
 	rg.i0 = 0;
@@ -79,10 +79,10 @@ static img::Rango2D img_to_char(  const img::Imagen& img0
     rg.je = rg.j0 + std::min(img0.cols(), ancho);
 
     // copiamos: ¿no puedo hacer memcpy? Habría que garantizar que
-    // Imagen solo tiene 3 datos: R,G,B y en este orden <-- dificil de
+    // Image solo tiene 3 datos: R,G,B y en este orden <-- dificil de
     // garantizar. Cuando la modifique no me acordaré. No hacer memcpy!!!
-    // (salvo que sea muy estable Imagen, y que esta función se defina dentro
-    // del interfaz de Imagen para saber que hay que revisarla)
+    // (salvo que sea muy estable Image, y que esta función se defina dentro
+    // del interfaz de Image para saber que hay que revisarla)
     for(Ind i = 0; i != std::min(img0.rows(), alto); ++i)
     {
 	for(Ind j = 0; j != std::min(img0.cols(), ancho); ++j)
@@ -160,9 +160,9 @@ void Fl_Visor::resize()
 
 // Volcamos la imagen img0 al visor. Esta función es la que realmente
 // hace el dibujo en pantalla de la imagen img0.
-void Fl_Visor::vuelca_al_visor(const Imagen& img0)
+void Fl_Visor::vuelca_al_visor(const Image& img0)
 {
-    img::Imagen imge = escalador.escala(img0, ancho, alto);
+    img::Image imge = escalador.escala(img0, ancho, alto);
     imgve_rango_ = impl::img_to_char(imge, pimge_, ancho, alto);
 
     // >>> TODO: no se por qué tengo que hacer un delete del rgb
@@ -283,8 +283,8 @@ int Fl_Visor::handle(int event)
 
 
 // asociamos el visor con la subimagen pasada
-void Fl_Visor::de(const img::Imagen& img0
-		    , const img::Rango2D& rg)
+void Fl_Visor::de(const img::Image& img0
+		    , const img::Range2D& rg)
 {
     subimg0_.de(img0, rg);
     resize_ = true;
@@ -294,7 +294,7 @@ void Fl_Visor::de(const img::Imagen& img0
 
 
 // indicamos al visor que queremos mostrar la región asociada a r
-void Fl_Visor::extension(const img::Rango2D& rg, bool redibujar)
+void Fl_Visor::extension(const img::Range2D& rg, bool redibujar)
 {
     subimg0_.extension(rg);
 
@@ -321,14 +321,14 @@ void Fl_Visor::muestra_img(bool mostrar)
 // funciones de conversión
 // OJO: (i,j) = (ie, je) = es una posición local escalada
 // Convierte: (ie, je) --> (I, J)
-img::Rango2D Fl_Visor::local_escalada_to_global(const img::Rango2D& r) const
+img::Range2D Fl_Visor::local_escalada_to_global(const img::Range2D& r) const
 {
     return local_to_global(local_escalada_to_local(r));
 }
 
 
 // Convierte: (ie, je) --> (I, J)
-img::Rango2D Fl_Visor::local_to_global(img::Rango2D r) const
+img::Range2D Fl_Visor::local_to_global(img::Range2D r) const
 {
 //    r.p0(r.p0() + subimg0_.P0());
 //    r.p1(r.p1() + subimg0_.P0());

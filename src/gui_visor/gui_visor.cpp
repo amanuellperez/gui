@@ -18,7 +18,7 @@
 
 #include "gui_visor.h"
 
-#include <img_imagen.h>
+#include <img_image.h>
 
 namespace gui{
 

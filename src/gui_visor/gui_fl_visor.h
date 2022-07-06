@@ -118,35 +118,35 @@ public:
     /// Indicamos que el visor es un visor "de" la subimagne 
     /// (img0, p0, sz).
     /// Ejemplo: visor.de(img0, p0, sz);
-    void de(const img::Imagen& img0,
-                const img::Posicion& p0, const img::Size2D& sz)
-    {de(img0, img::Rango2D{p0, sz});}
+    void de(const img::Image& img0,
+                const img::Position& p0, const img::Size2D& sz)
+    {de(img0, img::Range2D{p0, sz});}
 
     /// Indicamos que el visor es un visor "de" la subimagne 
     /// (img0, p0, sz)
-    void de(const img::Imagen& img0,
-                const img::Posicion& p0, const img::Posicion& p1)
-    {de(img0, img::Rango2D{p0, p1});}
+    void de(const img::Image& img0,
+                const img::Position& p0, const img::Position& p1)
+    {de(img0, img::Range2D{p0, p1});}
 
     /// Asociamos el visor con la imagen img0, mostrando en pantalla
     /// la región 'r'.
-    void de(const img::Imagen& img0, const img::Rango2D& r);
+    void de(const img::Image& img0, const img::Range2D& r);
 
     /// Asociamos el visor a la imagen img0, mostrando en pantalla toda
     /// la imagen.
-    void de(const img::Imagen& img0)
+    void de(const img::Image& img0)
     {de(img0, img0.extension());}
 
 
     // Redimensionamos la región que mostramos de la imagen
     // ----------------------------------------------------
-    void extension(const img::Rango2D& rg, bool redibujar = true);
+    void extension(const img::Range2D& rg, bool redibujar = true);
 
-    void extension(const img::Posicion& p0, const img::Size2D& sz, bool redibujar = true)
-    {extension(img::Rango2D{p0, sz}, redibujar);}
+    void extension(const img::Position& p0, const img::Size2D& sz, bool redibujar = true)
+    {extension(img::Range2D{p0, sz}, redibujar);}
 
-    void extension(const img::Posicion& p0, const img::Posicion& p1, bool redibujar = true)
-    {extension(img::Rango2D(p0, p1), redibujar);}
+    void extension(const img::Position& p0, const img::Position& p1, bool redibujar = true)
+    {extension(img::Range2D(p0, p1), redibujar);}
 
 
     void muestra_img(bool mostrar);
@@ -154,18 +154,18 @@ public:
 
     // Acceso a las imágenes del visor
     // -------------------------------
-    /// Imagen original que mostramos en el visor
-    const img::const_Subimagen& imgv0() const {return subimg0_;}
+    /// Image original que mostramos en el visor
+    const img::const_Subimage& imgv0() const {return subimg0_;}
     
     /// Cristal sobre el que dibujamos. 
-    img::Imagen& cristal() {return cristal_;}
-    const img::Imagen& cristal() const {return cristal_;}
+    img::Image& cristal() {return cristal_;}
+    const img::Image& cristal() const {return cristal_;}
 
     /// Es lo que mostramos en pantalla (sin escalar)
     /// Será: pantalla = superposición de cristal sobre imgv0
     // De momento la pantalla es igual al cristal
-    img::Imagen& pantalla() {return cristal_;}
-    const img::Imagen& pantalla() const {return cristal_;}
+    img::Image& pantalla() {return cristal_;}
+    const img::Image& pantalla() const {return cristal_;}
 
 
     // Syntax sugar
@@ -174,28 +174,28 @@ public:
     /// cristal. 
     /// En lugar de escrigir: visor.cristal()(p) = color;
     /// escribimos: visor.cristal(p) = color;
-    img::ColorRGB& cristal(const img::Posicion& p) { return cristal_(p); }
-    const img::ColorRGB& cristal(const img::Posicion& p) const
+    img::ColorRGB& cristal(const img::Position& p) { return cristal_(p); }
+    const img::ColorRGB& cristal(const img::Position& p) const
     {
         return cristal_(p);
     }
 
     // ----------------------
-    // img0 - Imagen original
+    // img0 - Image original
     // ----------------------
 //    /// Color original de la imagen en el punto p(i,j) (coordenadas locales)
 //    // img::ColorRGB img0(int i, int j) const;
-    img::ColorRGB img0_local(img::Posicion p) const;
+    img::ColorRGB img0_local(img::Position p) const;
 
     // -------------------------------------------------------------
-    // imgv0 - Imagen original (sin las capas) que se ve en el visor
+    // imgv0 - Image original (sin las capas) que se ve en el visor
     // -------------------------------------------------------------
     /// Color original de la imagen en el pixel del visor p (coordenadas 
     /// de visor).
     img::ColorRGB imgv0(gui::Posicion p) const;
 
     // ---------------------------------------------------
-    // imgv - Imagen (con las capas) que se ve en el visor
+    // imgv - Image (con las capas) que se ve en el visor
     //	    TODO: esto es la pantalla. Llamarlo pantalla!!!
     // ---------------------------------------------------
     /// ColorRGB de la imagen que se muestra en el visor.
@@ -223,19 +223,19 @@ public:
 
     /// Convierte la posición de visor p, en posición local en imgv.
     // Pasamos de coordenadas locales escaladas a coordenadas locales
-    img::Posicion visor_to_local(gui::Posicion p) const
+    img::Position visor_to_local(gui::Posicion p) const
     { return escalador.local_escalado_to_local(visor_to_local_escalada(p)); }
 
     /// Convierte la posición de visor p, en posición global en img0.
     // Pasamos de coordenadas locales escaladas a coordenadas locales
-    img::Posicion visor_to_global(const gui::Posicion& p) const
+    img::Position visor_to_global(const gui::Posicion& p) const
     { return local_to_global(visor_to_local(p));}
 
     // Convierte: de local escalada (ie, je) --> a global (I, J)
-    img::Rango2D local_escalada_to_global(const img::Rango2D& r) const;
+    img::Range2D local_escalada_to_global(const img::Range2D& r) const;
 
     // Convierte de local a global
-    img::Rango2D local_to_global(img::Rango2D r) const;
+    img::Range2D local_to_global(img::Range2D r) const;
 
     // Grabamos lo que se muestra en pantalla al usuario!!! (sin el escalado)
     void write(const std::string& nombre) const
@@ -267,8 +267,8 @@ private:
     //
     // Contiene una copia (o no, si la dejamos en negro) de la imagen que vamos 
     // a marcar. Por defecto, la función draw_local escribe en esta imagen. 
-    img::const_Subimagen subimg0_;
-    img::Imagen	   cristal_; 
+    img::const_Subimage subimg0_;
+    img::Image	   cristal_; 
 
 
     bool resize_ = true;    // indica si la imagen hay que redimensionarla  
@@ -287,7 +287,7 @@ private:
 			    // en el visor
 			    
     img::Escalador escalador;    // responsable de escalar las imágenes
-			    // ¿sería mejor Imagen_escalada????
+			    // ¿sería mejor Image_escalada????
 			    // De momento lo uso sobre todo para poder
 			    // convertir (ie, je) --> (i,j).
 
@@ -297,14 +297,14 @@ private:
 
     // imagen por defecto que se muestra en el visor en caso de no
     // asociarlo a ninguna imagen
-    static const img::Imagen img_por_defecto;
+    static const img::Image img_por_defecto;
 
     // dimensiones del visor
     int ancho, alto;	
 
-    // Rango que ocupa la imagen escalada dentro del visor
+    // Range que ocupa la imagen escalada dentro del visor
     // (en coordenadas de visor = locales escaladas)
-    img::Rango2D imgve_rango_;
+    img::Range2D imgve_rango_;
 
     // ¿Qué mostramos en el visor?
     // 1.- La imagen original sin el cristal
@@ -342,14 +342,14 @@ private:
     // Cambio de sistemas de referencia
     // --------------------------------
     // 1.- De coordenadas de visor gui::Posicion a coordenadas 
-    // locales escaladas img::Posicion
+    // locales escaladas img::Position
     // La imagen local escalada tiene el mismo tamaño que el visor.
     // Las posiciones del visor coinciden con las posiciones en esta
     // imagen. Esta función me permite convertir de unas coordenadas
     // a otras.
-    img::Posicion visor_to_local_escalada(gui::Posicion p) const
+    img::Position visor_to_local_escalada(gui::Posicion p) const
     {
-        return img::Posicion{p.y.pix() - imgve_rango_.i0,
+        return img::Position{p.y.pix() - imgve_rango_.i0,
                              p.x.pix() - imgve_rango_.j0};
     }
 
@@ -363,25 +363,25 @@ private:
 
     // de coordenadas local escalada (ie, je) a coordenadas locales (i,j).
     // De coordenadas de pantalla a coordenadas de subimagen.
-    img::Posicion local_escalada_to_local(img::Posicion p) const
-	{return img::Posicion{ie_to_local(p.i), je_to_local(p.j)};}
+    img::Position local_escalada_to_local(img::Position p) const
+	{return img::Position{ie_to_local(p.i), je_to_local(p.j)};}
 
 
-    img::Rango2D local_escalada_to_local(const img::Rango2D& r) const
+    img::Range2D local_escalada_to_local(const img::Range2D& r) const
     {
-//	return img::Rango2D{local_escalada_to_local(r.p0())
+//	return img::Range2D{local_escalada_to_local(r.p0())
 //					, local_escalada_to_local(r.p1())};
-	return img::Rango2D{local_escalada_to_local(r.upper_left_corner())
+	return img::Range2D{local_escalada_to_local(r.upper_left_corner())
 			  , local_escalada_to_local(r.bottom_right_corner())};
     }
 
     // 3.- De coordenadas locales a coordenadas globales
-    img::Posicion local_to_global(img::Posicion p) const
+    img::Position local_to_global(img::Position p) const
     { return {subimg0_.P0().i + p.i, subimg0_.P0().j + p.j};}
 
 
     // Funciones para implementar draw():
-    void vuelca_al_visor(const img::Imagen& img0);
+    void vuelca_al_visor(const img::Image& img0);
     void draw_original();
 //    void draw_capas();
 
@@ -403,7 +403,7 @@ private:
 
 // Devuelve el color de la imagen original
 // (i,j) = son coordenadas locales a la región que se muestra en el visor.
-inline img::ColorRGB Fl_Visor::img0_local(img::Posicion p) const 
+inline img::ColorRGB Fl_Visor::img0_local(img::Position p) const 
 //{ return (*img0_)(p0_.i+p.i, p0_.j+p.j); }
 { return subimg0_(p); }
 //

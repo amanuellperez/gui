@@ -57,7 +57,7 @@ private:
 	visor.refresh();
     }
 
-    img::Imagen img0{0,0};
+    img::Image img0{0,0};
 };
 
 
