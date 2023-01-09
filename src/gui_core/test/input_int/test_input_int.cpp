@@ -28,43 +28,44 @@ using namespace gui;
 using std::cout;
 using alp::Excepcion;
 
+using namespace test;
 
 int main()
 {
 try{
     Input_int a{"x", 20_pix, 10};
-    test::check_true(a == 10, "Input_int{}");
+    CHECK_TRUE(a == 10, "Input_int{}");
 
     a = 35;
-    test::check_true(a == 35, "operator=(int)");
+    CHECK_TRUE(a == 35, "operator=(int)");
 
     Input_int b{"b", 10_pix, 10};
  
     b = a;
-    test::check_true(b == 35, "operator=(Input_int)");
+    CHECK_TRUE(b == 35, "operator=(Input_int)");
 
     b= 10;
     a+= b;
-    test::check_true(a == 45, "operator+=(Input_int)");
+    CHECK_TRUE(a == 45, "operator+=(Input_int)");
 
     a-= b;
-    test::check_true(a == 35, "operator-=(Input_int)");
+    CHECK_TRUE(a == 35, "operator-=(Input_int)");
 
     a+= 5;
-    test::check_true(a == 40, "operator+=(int)");
+    CHECK_TRUE(a == 40, "operator+=(int)");
 
     a-= 10;
-    test::check_true(a == 30, "operator-=(int)");
+    CHECK_TRUE(a == 30, "operator-=(int)");
 
     a*=2;
-    test::check_true(a == 60, "operator*=(int)");
+    CHECK_TRUE(a == 60, "operator*=(int)");
 
     a/=2;
-    test::check_true(a == 30, "operator/=(int)");
+    CHECK_TRUE(a == 30, "operator/=(int)");
 
 
-    test::check_false(a == b, "operator==(Input_int)");
-    test::check_true(a != b, "operator==(Input_int)");
+    CHECK_FALSE(a == b, "operator==(Input_int)");
+    CHECK_TRUE(a != b, "operator==(Input_int)");
 
 
 }catch(const std::exception& e){
