@@ -9,7 +9,7 @@ FLTK_LDFLAGS=$(shell fltk-config --use-gl --use-images --ldflags)
 
 
 GUI_CXXFLAGS=-I$(CPP_INCLUDE)/alp \
-			 -I$(CPP_INCLUDE)/img
+			 -I$(CPP_INCLUDE)/img 
 
 GUI_LDFLAGS=-L$(INSTALL_LIB) -limg -lalp
 

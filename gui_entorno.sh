@@ -14,6 +14,7 @@ GUI_VISOR_COMPRULES=${GUI_MK}/gui_visor.mk	; export GUI_VISOR_COMPRULES
 GUI_VENT_COMPRULES=${GUI_MK}/gui_vent.mk	; export GUI_VENT_COMPRULES
 
 
+
 # ------------------------------------------------------
 # CPATH = es donde busca g++ los archivos .h (opción -I)
 # Movido a cpp/entorno.sh
